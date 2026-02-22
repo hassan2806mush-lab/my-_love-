@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسالة خاصة</title>
+    <style>
+        body {
+            background-color: #fff0f5;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        /* تنسيق النصوص المتتابعة */
+        .intro-text {
+            position: absolute;
+            font-size: 2rem;
+            color: #d63384;
+            font-weight: bold;
+            display: none;
+            animation: fadeInOut 2.5s forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.8); }
+            20% { opacity: 1; transform: scale(1); }
+            80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
+        }
+
+        #main-container {
+            display: none; /* مخفي بالبداية */
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 90%;
+        }
+
+        .flower { font-size: 60px; animation: bounce 2s infinite; display: block; margin: 15px 0; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        .buttons { margin-top: 25px; position: relative; height: 60px; }
+        button { padding: 12px 30px; font-size: 1.3rem; border: none; border-radius: 50px; cursor: pointer; transition: 0.3s; }
+        #yes-btn { background-color: #ff4d6d; color: white; }
+        #no-btn { background-color: #adb5bd; color: white; position: absolute; }
+
+        .small-text { font-size: 0.85rem; color: #999; margin-top: 15px; }
+
+        .heart { position: absolute; color: #ff4d6d; pointer-events: none; animation: floatUp 4s linear forwards; }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        #final-msg { display: none; line-height: 1.8; color: #c9184a; }
+        .poem { font-weight: bold; margin-top: 20px; white-space: pre-line; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+    <div id="text1" class="intro-text">هلو يا حلوه....</div>
+    <div id="text2" class="intro-text">أنا دزني عليچ وحوشج حسن</div>
+
+    <div id="main-container">
+        <div id="quiz-section">
+            <p style="font-size: 1.2rem;">ويريد يوصلچ رسالة بس ها خل اگلچ..</p>
+            <p style="color: #ff4d6d; font-weight: bold; font-size: 1.4rem;">ترا هو يحبچ هواي!</p>
+            <div class="flower">🌸</div>
+            <h2 style="color: #d63384;">تحبيني؟</h2>
+            
+            <div class="buttons">
+                <button id="yes-btn" onclick="showLove()">اي</button>
+                <button id="no-btn" onmouseover="moveNo()">لا</button>
+            </div>
+            <p class="small-text">اتحداچ تگولين لا مستحيل تگدرين 😎</p>
+        </div>
+
+        <div id="final-msg">
+            <h2 style="margin-bottom: 5px;">حبيبتي اموت عليچ اناااا</h2>
+            <p>دوسي يروحه لحسن انتِ</p>
+            <div class="poem">
+                أدمنتُ حُبكِ حتَى فَاحَ من جَسَدِي
+                عِطرُ الهَوى فَعلمَ النَّاسُ أنِّي عاشِقُ
+                حاولتُ إخفاءَ المحبَة جاهِداً لكن
+                كيفَ يهربُ منْ بالمَحبَةِ غارِقُ؟
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // تسلسل ظهور النصوص
+        const t1 = document.getElementById('text1');
+        const t2 = document.getElementById('text2');
+        const main = document.getElementById('main-container');
+
+        // الخطوة 1: هلو يا حلوه
+        setTimeout(() => { t1.style.display = 'block'; }, 500);
+        
+        // الخطوة 2: دزني وحوشج حسن
+        setTimeout(() => { 
+            t1.style.display = 'none';
+            t2.style.display = 'block'; 
+        }, 3000);
+
+        // الخطوة 3: إظهار المحتوى الرئيسي والقلوب
+        setTimeout(() => {
+            t2.style.display = 'none';
+            main.style.display = 'block';
+            startHearts();
+        }, 5500);
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 4000);
+            }, 300);
+        }
+
+        function moveNo() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            // إذا حاولت هواي الزر يبدي يختفي
+            let currentOpacity = parseFloat(window.getComputedStyle(btn).opacity);
+            if (currentOpacity > 0) btn.style.opacity = currentOpacity - 0.2;
+        }
+
+        function showLove() {
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('final-msg').style.display = 'block';
+            
+            // انفجار قلوب ملونة
+            for(let i=0; i<50; i++) {
+                const colors = ['#ff0000', '#ff69b4', '#ff1493', '#ffa07a', '#ff4500'];
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.color = colors[Math.floor(Math.random()*colors.length)];
+                heart.style.left = '50%';
+                heart.style.top = '50%';
+                heart.style.fontSize = '30px';
+                
+                const destX = (Math.random() - 0.5) * 200;
+                const destY = (Math.random() - 0.5) * 200;
+                
+                document.body.appendChild(heart);
+                
+                heart.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${destX}vw, ${destY}vh) scale(2)`, opacity: 0 }
+                ], { duration: 2000, easing: 'ease-out' });
+            }
+        }
+    </script>
+</body>
+</html>
